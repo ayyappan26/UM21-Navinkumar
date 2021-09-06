@@ -8,11 +8,14 @@ public class EmployeeBO {
 	public void empSystem(){
 		int choice = 0;
 		Scanner scan = Scan.getScannerInstance();
-		EmployeeDAO dao = new EmployeeDAO();
+		EmployeeDAO dao=new EmployeeDAO();
 		do{
 			System.out.println("1. View Employee");
 			System.out.println("2. Register Employee");
-			System.out.println("3. Exit");
+			System.out.println("3. View Specific Employee");
+			System.out.println("4. Update Employee");
+			System.out.println("5. Delete Employee");
+			System.out.println("6. Exit");
 			System.out.println("Enter your Choice: ");
 			choice = scan.nextInt();
 		}while(choice ==0);
@@ -25,10 +28,26 @@ public class EmployeeBO {
 			registerEmployee(dao);
 			break;
 		case 3:
+			 oneEmployee(dao);
+			break;
+		case 4:
+			updateEmployees(dao);
+		case 5:
+			deleteEmployee(dao);
+		case 6:
 			return;
 		}
 	}
 	
+	public void oneEmployee(EmployeeDAO dao) {
+		try{
+			dao.oneEmployee();
+		}catch (SQLException e){
+			System.out.println(e.getMessage());
+		}
+		
+	}
+
 	public void viewEmployees(EmployeeDAO dao){
 		try {
 			dao.viewEmployees();
@@ -36,6 +55,21 @@ public class EmployeeBO {
 			System.out.println(e.getMessage());
 		}
 		
+	}
+	public void updateEmployees(EmployeeDAO dao){
+		EmployeeDTO empdto=getEmpDetails();
+		try {
+			dao.updateEmployees(empdto);
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	public void deleteEmployee(EmployeeDAO dao){
+		try{
+			dao.deleteEmployee();
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+		}
 	}
 	public void registerEmployee(EmployeeDAO dao){
 		EmployeeDTO empDto = getEmpDetails();
